@@ -8,40 +8,38 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       buffer: "buffer",
+      "#minpath": path.resolve(__dirname, "node_modules/vfile/lib/minpath.browser.js")
     },
     dedupe: ["buffer"],
+    conditions: ["browser", "module", "import", "default"]
   },
   define: {
     global: "globalThis",
     "process.env": {},
-    "process.version": JSON.stringify(""),
+    "process.version": JSON.stringify("")
   },
   optimizeDeps: {
     esbuildOptions: {
       define: {
-        global: "globalThis",
-      },
+        global: "globalThis"
+      }
     },
-    include: ["buffer"],
+    include: ["buffer"]
   },
   build: {
     commonjsOptions: {
-      transformMixedEsModules: true,
+      transformMixedEsModules: true
     },
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks: undefined
       },
       onwarn(warning, warn) {
-        // Suppress specific warnings that might not be critical
-        if (warning.code === 'MODULE_LEVEL_DIRECTIVE') return;
-        if (warning.message.includes('use client')) return;
+        if (warning.code === "MODULE_LEVEL_DIRECTIVE") return;
+        if (warning.message.includes("use client")) return;
         warn(warning);
-      },
-    },
+      }
+    }
   },
-  // For GitHub Pages with custom domain (carenetai.online):
-  // Use base: "/" when using a custom domain
-  // If using GitHub Pages without custom domain, use: base: "/Carenetai/"
-  base: process.env.NODE_ENV === 'production' ? '/' : '/',
+  base: process.env.NODE_ENV === "production" ? "/" : "/"
 });
